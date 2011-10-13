@@ -43,9 +43,9 @@ package
 		// the indeces that define what data is used by each vertex
 		private var meshIndexData:Vector.<uint> = new Vector.<uint>;
 
-		private var meshVertexData2:Vector.<Number> = new Vector.<Number>;
-		// the indeces that define what data is used by each vertex
-		private var meshIndexData2:Vector.<uint> = new Vector.<uint>;
+		// private var meshVertexData2:Vector.<Number> = new Vector.<Number>;
+		// // the indeces that define what data is used by each vertex
+		// private var meshIndexData2:Vector.<uint> = new Vector.<uint>;
 		
 		// matrices that affect the mesh location and camera angles
 		private var projectionmatrix:PerspectiveMatrix3D = new PerspectiveMatrix3D();
@@ -83,49 +83,49 @@ package
 			stage.stage3Ds[0].requestContext3D();
 			// stage.stage3Ds[0].viewPort = new Rectangle(0,0,swf_width,swf_height);
 
-			selectInputFile();
+			// selectInputFile();
 		}
 
-		private function selectInputFile() : void {
-			var inputFile:FileReference = new FileReference();
-			inputFile.browse();
-			inputFile.addEventListener(Event.SELECT, function():void {
-				inputFile.load();
-				inputFile.addEventListener(Event.COMPLETE, function():void {
-					// Split the lines in the file
-					var lines:Array = inputFile.data.toString().split("\n").map( function(line:String, index:int, array:Array) : Array {
-						return line.split(" ");
-					});
+		// private function selectInputFile() : void {
+		// 	var inputFile:FileReference = new FileReference();
+		// 	inputFile.browse();
+		// 	inputFile.addEventListener(Event.SELECT, function():void {
+		// 		inputFile.load();
+		// 		inputFile.addEventListener(Event.COMPLETE, function():void {
+		// 			// Split the lines in the file
+		// 			var lines:Array = inputFile.data.toString().split("\n").map( function(line:String, index:int, array:Array) : Array {
+		// 				return line.split(" ");
+		// 			});
 
-					var triCount:int = lines[0][0];
-					var vertCount:int = lines[0][1];
+		// 			var triCount:int = lines[0][0];
+		// 			var vertCount:int = lines[0][1];
 
-					trace("triangles "+triCount, "verticies "+vertCount);
+		// 			trace("triangles "+triCount, "verticies "+vertCount);
 
-					// Read in the triangles
-					lines.slice(2, 2+triCount).map( function(line:Array, index:int, array:Array) : void {
-						meshIndexData2.push(line[0], line[1], line[2]);
-					});
+		// 			// Read in the triangles
+		// 			lines.slice(2, 2+triCount).map( function(line:Array, index:int, array:Array) : void {
+		// 				meshIndexData2.push(line[0], line[1], line[2]);
+		// 			});
 
-					// Read in the vertices
-					lines.slice(4+triCount, 4+triCount+vertCount).map( function(line:Array, index:int, array:Array) : void {
-						meshVertexData2.push(line[0], line[1], line[2], 0, 0, 0, 0, 1);
-					});
+		// 			// Read in the vertices
+		// 			lines.slice(4+triCount, 4+triCount+vertCount).map( function(line:Array, index:int, array:Array) : void {
+		// 				meshVertexData2.push(line[0], line[1], line[2], 0, 0, 0, 0, 1);
+		// 			});
 
-					// upload the mesh indexes
-					indexBuffer = context3D.createIndexBuffer(meshIndexData2.length);
-					indexBuffer.uploadFromVector(meshIndexData2, 0, meshIndexData2.length);
+		// 			// upload the mesh indexes
+		// 			indexBuffer = context3D.createIndexBuffer(meshIndexData2.length);
+		// 			indexBuffer.uploadFromVector(meshIndexData2, 0, meshIndexData2.length);
 					
-					// upload the mesh vertex data
-					// since our particular data is 
-					// x, y, z, u, v, nx, ny, nz
-					// each vertex uses 8 array elements
-					vertexBuffer = context3D.createVertexBuffer(meshVertexData2.length/8, 8); 
-					vertexBuffer.uploadFromVector(meshVertexData2, 0, meshVertexData2.length/8);
+		// 			// upload the mesh vertex data
+		// 			// since our particular data is 
+		// 			// x, y, z, u, v, nx, ny, nz
+		// 			// each vertex uses 8 array elements
+		// 			vertexBuffer = context3D.createVertexBuffer(meshVertexData2.length/8, 8); 
+		// 			vertexBuffer.uploadFromVector(meshVertexData2, 0, meshVertexData2.length/8);
 
-				});
-			});
-		}
+		// 		});
+		// 	});
+		// }
 		
 	private function onContext3DCreate(event:Event):void 
 	{
@@ -279,6 +279,9 @@ package
 		
 		private function initData():void 
 		{
+			meshIndexData = InitData.meshIndexData;
+			meshVertexData = InitData.meshVertexData;
+			
 			// Defines which vertex is used for each polygon
 			// In this example a square is made from two triangles
 			// meshIndexData = Vector.<uint> 
@@ -312,12 +315,6 @@ package
 			// 	-1,  1, -1,  0, 0,   0,  0,  1,
 			// 	 1, -1, -1,  0, 0,   0,  0,  1
 			// ]);
-
-			meshIndexData = InitData.meshIndexData;
-			meshVertexData = InitData.meshVertexData;
-		
 		}
-
-		
 	}
 }
