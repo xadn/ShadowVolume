@@ -1,1 +1,3 @@
 Port shadow volume project to flash
+
+mxmlc -debug=true ShadowVolume.as && fdb ShadowVolume.swf
